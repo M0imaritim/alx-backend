@@ -4,6 +4,7 @@
 """
 
 import csv
+import math
 from typing import List, Dict, Any
 
 
@@ -33,7 +34,8 @@ class Server:
             }
         return self.__indexed_dataset
 
-    def get_hyper_index(self, index: int = 0, page_size: int = 10) -> Dict[str, Any]:
+    def get_hyper_index(self, index: int = 0, page_size: int = 10)\
+            -> Dict[str, Any]:
         """
         Returns a page of the dataset with deletion-resilient pagination.
 
@@ -60,9 +62,12 @@ class Server:
                 collected += 1
             current_index += 1
 
+        total_pages = math.ceil(len(indexed_data) / page_size)
+
         return {
             "index": index,
             "next_index": current_index,
             "page_size": len(data),
-            "data": data
+            "data": data,
+            "total_pages": total_pages
         }
